@@ -10,7 +10,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
     A Project for Revou Full Stack Software Engineering Bootcamp
     <br />
     <br />
-    <a href="">View Demo</a>
+    <a href="https://milestone-3-rizaldi-r.vercel.app/">View Demo</a>
     &middot;
     <a href="https://github.com/revou-fsse-feb25/milestone-3-rizaldi-r/issues/new?labels=bug">Report Bug</a>
     &middot;
@@ -63,7 +63,7 @@ Aerocove is a front-end marketplace web application developed using Next.js as p
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Links <a id="links"></a>
-&emsp; Published project : 
+&emsp; Published project : https://milestone-3-rizaldi-r.vercel.app/
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
