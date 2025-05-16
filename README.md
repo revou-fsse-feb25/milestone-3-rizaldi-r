@@ -34,7 +34,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ### About <a id="about"></a>
 
-Revofun is a fictional game studio dedicated to creating fun and engaging browser games. This project was developed as part of the Revou Full Stack Software Engineering Bootcamp.
+Aerocove is a front-end marketplace web application developed using Next.js as part of the RevoU Bootcamp curriculum. This project showcases a range of modern web development technologies and practices, providing a platform for users to browse and purchase products.
 <br />
 
 ### Features <a id="features"></a>
@@ -55,10 +55,10 @@ Revofun is a fictional game studio dedicated to creating fun and engaging browse
 
 ### Build With <a id="stack"></a>
 
+&emsp; ![ts](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
 &emsp; ![TailwindCSS](https://img.shields.io/badge/Tailwind%20CSS-%2338B2AC.svg?logo=tailwind-css&logoColor=white)
 &emsp; ![React](https://img.shields.io/badge/React-%2320232a.svg?logo=react&logoColor=%2361DAFB)
 &emsp; ![Next.js](https://img.shields.io/badge/Next.js-black?logo=next.js&logoColor=white)
-&emsp; ![ts](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
