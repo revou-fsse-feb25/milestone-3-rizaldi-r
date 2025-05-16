@@ -9,8 +9,8 @@ export default function ProductList({
     setCookieCartCount,
     categoryId,
 }: {
-    setCookieCartCount: VoidFunction;
-    categoryId: number;
+    setCookieCartCount: () => void;
+    categoryId: number | null;
 }) {
     // const [categoryIdState, setCategoryIdState] = useState(NaN);
     const [productDataList, setProductDataList] = useState<IProductData[]>([]);

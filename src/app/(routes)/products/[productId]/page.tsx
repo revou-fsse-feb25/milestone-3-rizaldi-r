@@ -9,7 +9,7 @@ import { IProductData } from "@/types/types";
 
 
 interface IProductPageProps {
-    params: { id: string };
+    params: Promise<{ productId: number }>;
 }
 
 export async function generateMetadata({ params }: IProductPageProps): Promise<Metadata> {
@@ -41,13 +41,15 @@ export default async function ProductPage({ params }: IProductPageProps) {
 
     // get cookies
     const cookie = await cookies();
-    const cartCount = cookie.get("cartCount")?.value;
+    const tempCartCount = cookie.get("cartCount")?.value;
+    const cartCount = tempCartCount ? parseInt(tempCartCount, 10) : 0; 
 
     // set cookies
     async function setCookieCartCount() {
         "use server";
         const cookie = await cookies();
-        cookie.set("cartCount", cookie.has("cartCount") ? parseInt(cartCount) + 1 : 1);
+        // cookie.set("cartCount", cookie.has("cartCount") ? parseInt(cartCount) + 1 : 1);
+        cookie.set("cartCount", (cookie.has("cartCount") ? cartCount + 1 : 1).toString());
     }
 
     // fetch product data

@@ -16,7 +16,7 @@ export const fetchCategoryList = async (): Promise<ICategoryData[]> => {
     return response.data;
 };
 
-export const fetchProductList = async (categoryId?: number): Promise<IProductData[]> => {
+export const fetchProductList = async (categoryId?: number | null): Promise<IProductData[]> => {
     const filterCategory = categoryId ? `&categoryId=${categoryId}` : "";
     const params: string = `/products?offset=0&limit=10` + filterCategory;
     console.log(" params", params);

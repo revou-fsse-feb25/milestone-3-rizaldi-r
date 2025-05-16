@@ -7,13 +7,15 @@ import NavbarHomePage from "@/components/NavbarHomePageBtns";
 
 export default async function HomePage() {
     const cookie = await cookies();
-    const cartCount = cookie.get("cartCount")?.value;
+    const tempCartCount = cookie.get("cartCount")?.value;
+    const cartCount = tempCartCount ? parseInt(tempCartCount, 10) : 0; 
 
     // TODO: add to utils
     async function setCookieCartCount() {
         "use server";
         const cookie = await cookies();
-        cookie.set("cartCount", cookie.has("cartCount") ? parseInt(cartCount) + 1 : 1);
+        // cookie.set("cartCount", cookie.has("cartCount") ? parseInt(cartCount) + 1 : 1);
+        cookie.set("cartCount", (cookie.has("cartCount") ? cartCount + 1 : 1).toString());
     }
 
     return (

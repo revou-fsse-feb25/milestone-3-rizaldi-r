@@ -7,11 +7,11 @@ import ProductList from "@/components/ProductList";
 export default function HomePageContent({
     setCookieCartCount,
 }: {
-    setCookieCartCount: VoidFunction;
+    setCookieCartCount: () => void;
 }) {
-    const [categoryId, setCategoryId] = useState(NaN);
+    const [categoryId, setCategoryId] = useState<number | null>(null);
     
-    const changeCategoryId = (newCategoryId: number) => {
+    const changeCategoryId = (newCategoryId: number | null) => {
         setCategoryId(newCategoryId)
     }
     

@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 export default function CategoryList({
     changeCategoryId,
 }: {
-    changeCategoryId: (newCategoryId: number | null) => {};
+    changeCategoryId: (newCategoryId: number | null) => void;
 }) {
     const [CategoryData, setCategoryData] = useState<ICategoryData[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
