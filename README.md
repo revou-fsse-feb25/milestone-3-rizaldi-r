@@ -1,5 +1,3 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
-
 <div id="readme-top" align="center">
   <a href="https://github.com/othneildrew/Best-README-Template">
   </a>
@@ -10,7 +8,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
     A Project for Revou Full Stack Software Engineering Bootcamp
     <br />
     <br />
-    <a href="https://milestone-3-rizaldi-r.vercel.app/">View Demo</a>
+    <a href="https://milestone-3-rizaldi-r-module-5.vercel.app/">View Demo</a>
     &middot;
     <a href="https://github.com/revou-fsse-feb25/milestone-3-rizaldi-r/issues/new?labels=bug">Report Bug</a>
     &middot;
@@ -24,7 +22,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
   <ol>
     <li><a href="#about">Description</a></li>
     <li><a href="#features">Features</a></li>
-    <li><a href="#screenshots">Screenshots</a></li>
+    <!-- <li><a href="#screenshots">Screenshots</a></li> -->
     <li><a href="#stack">Tech Stack</a></li>
     <li><a href="#links">Links</a></li>
     <li><a href="#getting-started">Getting Started</a></li>
@@ -34,7 +32,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ### About <a id="about"></a>
 
-Aerocove is a front-end marketplace web application developed using Next.js as part of the RevoU Bootcamp curriculum. This project showcases a range of modern web development technologies and practices, providing a platform for users to browse and purchase products.
+Aerocove is a front-end marketplace web application developed using Next.js as part of the RevoU Bootcamp curriculum. This project showcases a range of modern web development technologies and practices, providing a platform for users to browse and purchase products, while empower administrators with a powerful dashboard for complete control over application data. 
 <br />
 
 ### Features <a id="features"></a>
@@ -43,15 +41,16 @@ Aerocove is a front-end marketplace web application developed using Next.js as p
 - Dynamic metadata on product pages
 - Persistent checkout count tracking via cookies
 - Category-based product filtering
-- SSG FAQ page
-- SSR product pages
+- Authentication & Middleware Protection
+- Intuitive Shopping Cart with Context API
+- Admin Dashboard: Full CRUD with API Routes
+- SSG FAQ page and SSR product pages
+- Comprehensive Unit Testing (Work in Progress)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-### Screenshots <a id="screenshots"></a>
-
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<!-- ### Screenshots <a id="screenshots"></a>
+<p align="right">(<a href="#readme-top">back to top</a>)</p> -->
 
 ### Build With <a id="stack"></a>
 
@@ -59,15 +58,18 @@ Aerocove is a front-end marketplace web application developed using Next.js as p
 &emsp; ![TailwindCSS](https://img.shields.io/badge/Tailwind%20CSS-%2338B2AC.svg?logo=tailwind-css&logoColor=white)
 &emsp; ![React](https://img.shields.io/badge/React-%2320232a.svg?logo=react&logoColor=%2361DAFB)
 &emsp; ![Next.js](https://img.shields.io/badge/Next.js-black?logo=next.js&logoColor=white)
+&emsp; [![Jest](https://img.shields.io/badge/Jest-C21325?logo=jest&logoColor=fff)](#)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Links <a id="links"></a>
-&emsp; Published project : https://milestone-3-rizaldi-r.vercel.app/
+&emsp; Published project : https://milestone-3-rizaldi-r-module-5.vercel.app/
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Getting Started <a id="getting-started"></a>
+
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 First, run the development server:
 
