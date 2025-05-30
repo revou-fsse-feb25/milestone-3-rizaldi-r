@@ -1,17 +1,19 @@
-import { ComponentClass, ReactNode } from "react";
+import { ReactNode } from "react";
 import Link from "next/link";
-import NavbarHomePage from "./NavbarHomePageBtns";
 
-export default function Navbar({ componentButtons }: { componentButtons: ReactNode }) {
+export default function Navbar({ children }: { children: ReactNode }) {
     return (
-        <nav className="w-[var(--width-body)] h-16 flex mt-4 fixed bottom-0 z-10">
+        <nav className="w-[var(--width-body)] left-[calc(50%-var(--width-body)/2)] h-[var(--height-navbar)] flex justify-center fixed bottom-0 z-2 bg-(image:--gradient-navbar-fill) border border-[var(--color-border)] rounded-xl items-center backdrop-blur-sm">
             <Link
                 href={"/"}
-                className="font-bold bg-gray-300 p-2 px-4 rounded-xl cursor-pointer hover:bg-gray-300"
+                className="relative bg-(image:--gradient-exlore-btn-fill) rounded-full border w-14 h-14 flex justify-center mr-5"
             >
-                <img width={40} src="/explore.svg" alt="" />
+                <img className="absolute w-full" src="/glare.svg" alt="" />
+                <img className="w-7 filter-[var(--filter-color-text)]" src="/explore.svg" alt="" />
             </Link>
-            {componentButtons}
+            {children}
         </nav>
     );
 }
+
+// calc(50% - var(--width-body)/2)

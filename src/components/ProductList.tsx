@@ -1,28 +1,30 @@
 "use client";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, ReactNode } from "react";
 
 import { fetchProductList } from "@/services/api";
 import { IProductData } from "@/types/types";
-import ProductCard from "./ProductCard";
+import ErrorDisplay from "./ErrorDisplay";
+import LoadingDisplay from "./LoadingDisplay";
 
 export default function ProductList({
-    setCookieCartCount,
+    renderChildren,
+    isGrid = true,
     categoryId,
 }: {
-    setCookieCartCount: () => void;
-    categoryId: number | null;
+    renderChildren: (data: IProductData) => ReactNode;
+    isGrid?: boolean;
+    categoryId?: number | null;
 }) {
-    // const [categoryIdState, setCategoryIdState] = useState(NaN);
     const [productDataList, setProductDataList] = useState<IProductData[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
-    
-    const fetchProduct = async () => {
+
+    // TODO: fetch in parent component so it can be reused
+    const fetchProduct = async (categoryIdParam?: number | null) => {
         try {
             setIsLoading(true);
             setError(null);
-            console.log(" categoryId", categoryId)
-            const data = await fetchProductList(categoryId);
+            const data = await fetchProductList(categoryIdParam);
             setProductDataList(data);
         } catch (err: unknown) {
             err instanceof Error && setError(err.message);
@@ -30,59 +32,29 @@ export default function ProductList({
             setIsLoading(false);
         }
     };
-    
+
     useEffect(() => {
-        fetchProduct();
+        fetchProduct(categoryId);
     }, [categoryId]);
 
     return (
         <>
             {/* Error display */}
-            {error && (
-                <div className="bg-red-500 bg-opacity-80 text-white p-4 rounded-lg mb-6 shadow-lg flex items-center">
-                    <svg
-                        className="w-6 h-6 mr-2 flex-shrink-0"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                        />
-                    </svg>
-                    <span>{error}</span>
-                </div>
-            )}
+            {error && <ErrorDisplay errorMessage={error} />}
 
             {/* Loading display */}
-            {isLoading && (
-                <div className="flex justify-center items-center h-64">
-                    <div className="relative">
-                        <div className="h-16 w-16 rounded-full border-4 border-gray-300 border-t-primary-500 animate-spin"></div>
-                        <span className="sr-only">Loading...</span>
-                    </div>
-                </div>
-            )}
+            {isLoading && <LoadingDisplay />}
 
             {/* Product display */}
-            <div className="grid grid-cols-2 gap-3">
-                {!isLoading && productDataList &&
-                    productDataList.map((data) => (
-                        <ProductCard
-                            id={data.id}
-                            image={data.images[0]}
-                            title={data.title}
-                            price={data.price}
-                            category={data.category.name}
-                            description={data.description}
-                            setCookieCartCount={setCookieCartCount}
-                        />
+            {!error && !isLoading && (
+                <div className={`${isGrid ? 'grid' : 'flex'} grid-cols-2 gap-3 flex-col`}>
+                    {productDataList.map((productData) => (
+                        <React.Fragment key={productData.id}>
+                            {renderChildren(productData)}
+                        </React.Fragment>
                     ))}
-            </div>
+                </div>
+            )}
         </>
     );
 }

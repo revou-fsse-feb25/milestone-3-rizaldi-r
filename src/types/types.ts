@@ -20,14 +20,24 @@ export interface IProductData {
     updatedAt: string;
 }
 
-export interface ICardProductProps {
+export interface IProductCardProps {
     id: number;
     image: string;
     title: string;
     price: number;
-    category: string;
-    description: string;
-    setCookieCartCount: VoidFunction;
+    category?: string;
+    description?: string;
+}
+
+export interface IProductCartCardProps {
+    id: number;
+    image: string;
+    title: string;
+    price: number;
+    quantity: number;
+    productData: ICartProduct;
+    onAddToCart: (product: ICartProduct) => void;
+    onRemoveFromCart: (productId: number) => void;
 }
 
 export interface IProductPageContentProps {
@@ -38,4 +48,16 @@ export interface IProductPageContentProps {
     description: string;
     dateCreated: string;
     dateUpdated: string;
+}
+
+export type ICartItem = {
+  product: ICartProduct;
+  quantity: number;
+};
+
+export interface ICartProduct {
+    id: number;
+    name: string;
+    price: number;
+    image: string;
 }

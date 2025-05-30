@@ -1,22 +1,33 @@
-export default function NavbarProductPageBtns({
-    cartCount,
-    setCookieCartCount,
-}: {
-    cartCount: number;
-    setCookieCartCount: VoidFunction;
-}) {
+"use client";
+
+import ButtonRectText from "./ButtonRectText";
+import NavbarButtonCart from "./NavbarButtonCart";
+import { useCartContext } from "@/contexts/CartContext";
+import { ICartProduct, IProductData } from "@/types/types";
+
+export default function NavbarProductPageBtns({ product }: { product: IProductData }) {
+    const iconWidth: number = 24;
+    const customPadding: string = "px-5 py-3";
+
+    const { addToCart } = useCartContext();
+    const ProductCart: ICartProduct = {
+        id: product.id,
+        name: product.title,
+        price: product.price,
+        image: product.images[0],
+    };
+
+    const handleAddToCart = () => {
+        addToCart(ProductCart);
+    };
+
     return (
-        <>
-            <button className="font-bold bg-green-300 p-2 px-4 rounded-xl ml-2 cursor-pointer hover:bg-green-400">
-                Save
-            </button>
-            <button
-                onClick={setCookieCartCount}
-                className="font-bold bg-green-300 p-2 px-4 rounded-xl ml-2 cursor-pointer hover:bg-green-400"
-            >
-                {cartCount}
+        <div className="flex gap-1.5 items-center">
+            <NavbarButtonCart iconWidth={iconWidth} />
+            <ButtonRectText customPadding={customPadding}>Save</ButtonRectText>
+            <ButtonRectText onClickProp={handleAddToCart} customPadding={customPadding}>
                 Add to Cart
-            </button>
-        </>
+            </ButtonRectText>
+        </div>
     );
 }

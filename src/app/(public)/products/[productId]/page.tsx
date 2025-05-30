@@ -1,12 +1,10 @@
-import { cookies } from "next/headers";
-import type { Metadata, ResolvingMetadata } from "next";
+import type { Metadata } from "next";
 
 import ProductPageContent from "@/components/ProductPageContent";
 import Navbar from "@/components/Navbar";
 import NavbarProductPageBtns from "@/components/NavbarProductPageBtns";
 import { fetchProduct } from "@/services/api";
 import { IProductData } from "@/types/types";
-
 
 interface IProductPageProps {
     params: Promise<{ productId: number }>;
@@ -39,34 +37,18 @@ export default async function ProductPage({ params }: IProductPageProps) {
     const tempParams = await params;
     const id = tempParams?.productId;
 
-    // get cookies
-    const cookie = await cookies();
-    const tempCartCount = cookie.get("cartCount")?.value;
-    const cartCount = tempCartCount ? parseInt(tempCartCount, 10) : 0; 
-
-    // set cookies
-    async function setCookieCartCount() {
-        "use server";
-        const cookie = await cookies();
-        // cookie.set("cartCount", cookie.has("cartCount") ? parseInt(cartCount) + 1 : 1);
-        cookie.set("cartCount", (cookie.has("cartCount") ? cartCount + 1 : 1).toString());
-    }
-
     // fetch product data
     const productData: IProductData = await fetchProduct(id);
+
+    // convert date
     const dateUpdated = new Date(productData.updatedAt).toDateString();
     const dateCreated = new Date(productData.creationAt).toDateString();
 
     return (
         <>
-            <Navbar
-                componentButtons={
-                    <NavbarProductPageBtns
-                        cartCount={cartCount}
-                        setCookieCartCount={setCookieCartCount}
-                    />
-                }
-            />
+            <Navbar>
+                <NavbarProductPageBtns product={productData} />
+            </Navbar>
             <ProductPageContent
                 images={productData.images}
                 title={productData.title}

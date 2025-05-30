@@ -3,6 +3,9 @@
 import { fetchCategoryList } from "@/services/api";
 import { ICategoryData } from "@/types/types";
 import { useState, useEffect } from "react";
+import ButtonRectText from "./ButtonRectText";
+import ErrorDisplay from "./ErrorDisplay";
+import LoadingDisplay from "./LoadingDisplay";
 
 export default function CategoryList({
     changeCategoryId,
@@ -31,61 +34,41 @@ export default function CategoryList({
     }, []);
 
     return (
-        <div>
+        <>
             {/* Error display */}
-            {error && (
-                <div className="bg-red-500 bg-opacity-80 text-white p-4 rounded-lg mb-6 shadow-lg flex items-center">
-                    <svg
-                        className="w-6 h-6 mr-2 flex-shrink-0"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                        />
-                    </svg>
-                    <span>{error}</span>
-                </div>
-            )}
+            {error && <ErrorDisplay errorMessage={error} />}
 
             {/* Loading display */}
-            {isLoading && (
-                <div className="flex justify-center items-center h-64">
-                    <div className="relative">
-                        <div className="h-16 w-16 rounded-full border-4 border-gray-300 border-t-primary-500 animate-spin"></div>
-                        <span className="sr-only">Loading...</span>
-                    </div>
-                </div>
-            )}
+            {isLoading && <LoadingDisplay />}
 
             {/* Category display */}
-            {!isLoading && (
-                <div>
-                    <button
-                        onClick={() => {
-                            changeCategoryId(null);
-                        }}
-                        className="font-bold bg-gray-300 border border-gray-400 p-2 px-4 rounded-xl ml-auto cursor-pointer hover:bg-gray-300"
-                    >
-                        All
-                    </button>
+            {!isLoading && !error && (
+                <div
+                    className="flex gap-1 my-3 overflow-x-scroll snap-x snap-mandatory no-scrollbar"
+                    data-carousel="slide"
+                >
+                    <ButtonRectText onClickProp={() => changeCategoryId(null)}>All</ButtonRectText>
                     {CategoryData.map((data) => (
-                        <button
-                            onClick={() => {
-                                changeCategoryId(parseInt(data.id));
-                            }}
-                            className="font-bold bg-gray-300 border border-gray-400 p-2 px-4 rounded-xl ml-auto cursor-pointer hover:bg-gray-300"
+                        <ButtonRectText
+                            key={data.id}
+                            onClickProp={() => changeCategoryId(parseInt(data.id))}
                         >
                             {data.name}
-                        </button>
+                        </ButtonRectText>
                     ))}
                 </div>
             )}
-        </div>
+        </>
     );
 }
+
+// <Carousel>
+//     <ButtonRectText onClickProp={() => changeCategoryId(null)}>
+//         All
+//     </ButtonRectText>
+//     {CategoryData.map((data) => (
+//         <ButtonRectText onClickProp={() => changeCategoryId(parseInt(data.id))}>
+//             {data.name}
+//         </ButtonRectText>
+//     ))}
+// </Carousel>

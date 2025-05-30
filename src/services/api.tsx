@@ -1,5 +1,4 @@
 /**
- * API Service for Todo Application
  * This file contains all the API functions for CRUD operations.
  */
 
@@ -7,28 +6,22 @@ import axios from "axios";
 import { IProductData, ICategoryData } from "@/types/types";
 
 // API base URL
-const API_URL = "https://api.escuelajs.co/api/v1";
+axios.defaults.baseURL = "https://api.escuelajs.co/api/v1";
 
 export const fetchCategoryList = async (): Promise<ICategoryData[]> => {
-    const params: string = "/categories?limit=5";
-    const response = await axios.get(API_URL + params);
-    if (response.statusText !== "OK") throw new Error("Failed to fetch todos");
+    const response = await axios.get("/categories?limit=5");
     return response.data;
 };
 
 export const fetchProductList = async (categoryId?: number | null): Promise<IProductData[]> => {
     const filterCategory = categoryId ? `&categoryId=${categoryId}` : "";
-    const params: string = `/products?offset=0&limit=10` + filterCategory;
-    console.log(" params", params);
-    const response = await axios.get(API_URL + params);
-    if (response.statusText !== "OK") throw new Error("Failed to fetch todos");
+    const params: string = "/products?offset=0&limit=10" + filterCategory;
+    const response = await axios.get(params);
     return response.data;
 };
 
 export const fetchProduct = async (id: number): Promise<IProductData> => {
-    const params: string = `/products/${id}`;
-    const response = await axios.get(API_URL + params);
-    if (response.statusText !== "OK") throw new Error("Failed to fetch todos");
+    const response = await axios.get(`/products/${id}`);
     return response.data;
 };
 
