@@ -2,61 +2,82 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
 
+const staticFileExtensions = [
+    ".ico",
+    ".png",
+    ".jpg",
+    ".jpeg",
+    ".gif",
+    ".svg",
+    ".webp",
+    ".css",
+    ".js",
+    ".map",
+    ".json",
+    ".xml",
+    ".txt",
+    ".pdf",
+    ".woff",
+    ".woff2",
+    ".ttf",
+    ".otf",
+    ".eot",
+];
+
+const routeConfig = {
+    public: ["/", "/api/auth", "/faq", "/products", "/wishlist", "/cart"],
+    authPages: ["/account"],
+    protected: ["/checkout"],
+    adminOnly: ["/dashboard"],
+};
+
 export async function middleware(request: NextRequest) {
     const path = request.nextUrl.pathname;
-    console.log(`Middleware processing request to: ${path}`);
+    // console.log(`Middleware processing request to: ${path}`);
 
-    const staticFileExtensions = [
-        ".svg",
-        ".png",
-        ".jpg",
-        ".jpeg",
-        ".gif",
-        ".webp",
-        ".ico",
-        ".txt",
-        ".pdf",
-    ];
+    // --- 1. Handle Static Files Early ---
     const isStaticFile = staticFileExtensions.some((ext) => path.endsWith(ext));
-    if (isStaticFile) {
-        return NextResponse.next();
-    }
+    if (isStaticFile) return NextResponse.next();
 
-    const publicPaths = ["/api/auth", "/account", "/cart", "/faq", "/products", "/wishlist"];
-    const isPublicPath =
-        publicPaths.some((publicPath) => path.startsWith(publicPath)) ||
-        path.startsWith("/api/auth") ||
-        path === "/";
-    const loggedUserPath = ["/checkout"];
-    const isloggedUserPath = loggedUserPath.some((publicPath) => path.startsWith(publicPath));
-    const isAuthPage =
-        request.nextUrl.pathname.startsWith("/account") ||
-        request.nextUrl.pathname.startsWith("/register");
+    // --- 2. Check Authentication Status ---
     const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
     const isAuthenticated = !!token;
+    const userRole = token?.role as string | undefined;
 
-    // If user not logged in
-    if (isloggedUserPath && !isAuthenticated) {
+    // --- 3. Handle Public Routes ---
+    const isPublicRoute = routeConfig.public.some(
+        (routePath) => path === routePath || path.startsWith(`${routePath}/`)
+    );
+    if (isPublicRoute) return NextResponse.next();
+
+    // --- 4. Handle Auth Pages (Redirect if Authenticated Admin) ---
+    const isAuthPage = routeConfig.authPages.some(
+        (routePath) => path === routePath || path.startsWith(`${routePath}/`)
+    );
+    if (isAuthPage && userRole === "admin") {
+        const redirectPath = "/dashboard";
+        return NextResponse.redirect(new URL(redirectPath, request.url));
+    }
+
+    // --- 5. Handle Protected Routes (Require Authentication) ---
+    const isProtected = routeConfig.protected.some(
+        (routePath) => path === routePath || path.startsWith(`${routePath}/`)
+    );
+    if (isProtected && !isAuthenticated) {
         const accountUrl = new URL("/account", request.url);
         accountUrl.searchParams.set("redirect", path);
         return NextResponse.redirect(accountUrl);
     }
 
-    // Redirect authenticated users after login
-    if (isAuthPage && isAuthenticated) {
-        const role = token.role as string;
-        if (role === "admin") return NextResponse.redirect(new URL("/dashboard", request.url));
-    }
-
-    // Handle admin routes
-    if (request.nextUrl.pathname.startsWith("/dashboard")) {
-        const role = token?.role as string;
-        if (role !== "admin") {
+    // --- 6. Handle Admin-Only Routes (Require Admin Role) ---
+    const isAdminRoute = routeConfig.adminOnly.some(
+        (routePath) => path === routePath || path.startsWith(`${routePath}/`)
+    );
+    if (isAdminRoute) {
+        if (!isAuthenticated || userRole !== "admin")
             return NextResponse.redirect(new URL("/", request.url));
-        }
     }
 
-    // Continue with the request if the route is public or user is authenticated
     return NextResponse.next();
 }
 

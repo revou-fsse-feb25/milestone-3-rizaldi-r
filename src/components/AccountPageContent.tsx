@@ -9,8 +9,8 @@ import { useSession, signOut } from "next-auth/react";
 
 export default function LoginPageContent() {
     const router = useRouter();
-    const searchParams = useSearchParams()
-    const redirect = searchParams.get("redirect") || "/account"
+    const searchParams = useSearchParams();
+    const redirect = searchParams.get("redirect");
     const { status } = useSession();
     const [error, setError] = useState("");
     const [isLoading, setIsLoading] = useState(false);
@@ -42,7 +42,11 @@ export default function LoginPageContent() {
                 setIsLoading(false);
                 return;
             }
-            router.push(redirect);
+            console.log(" searchParams", searchParams);
+            console.log(" redirect", redirect)
+            // ISSUE: in build version, router.push not working
+            router.refresh();
+            if (redirect) router.push(redirect);
         } catch (error) {
             setError("An unexpected error occurred");
             setIsLoading(false);
@@ -90,7 +94,12 @@ export default function LoginPageContent() {
                         required
                     />
                     <ButtonRectText>
-                        <input type="submit" disabled={isLoading} className="cursor-pointer" value={!isLoading ? "Login" : "Logging in..."}/>
+                        <input
+                            type="submit"
+                            disabled={isLoading}
+                            className="cursor-pointer"
+                            value={!isLoading ? "Login" : "Logging in..."}
+                        />
                     </ButtonRectText>
                 </form>
             )}
