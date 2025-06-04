@@ -9,15 +9,19 @@ export const revalidate = 30;
 
 export default async function DashboardPage() {
     // Handle fetching product list
-    const { productData, errorMessage, isLoading } = await handleFetchFromServer<IProductData[]>(
-        fetchProductList
-    );
+    const { productData, errorMessage, isLoading, refetch } = await handleFetchFromServer<
+        IProductData[]
+    >(fetchProductList);
 
     return (
         <>
             <h2>Dashboard</h2>
-            {isLoading && <p>loading</p>}
-            <DashboardPageContent productDataList={productData} />
+            {/* {isLoading && <p>loading</p>} */}
+            <DashboardPageContent
+                productDataList={productData}
+                errorMessage={errorMessage}
+                isLoading={isLoading}
+            />
             <Navbar>{""}</Navbar>
         </>
     );

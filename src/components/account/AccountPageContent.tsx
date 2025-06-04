@@ -1,7 +1,7 @@
 "use client";
 
 import { ChangeEvent, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams, redirect } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import { signIn } from "next-auth/react";
 
@@ -11,7 +11,7 @@ import ButtonRegular from "../_commons/ButtonRegular";
 export default function LoginPageContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
-    const redirect = searchParams.get("redirect");
+    const redirectTo = searchParams.get("redirect");
     const { status } = useSession();
     const [error, setError] = useState("");
     const [isLoading, setIsLoading] = useState(false);
@@ -43,12 +43,16 @@ export default function LoginPageContent() {
                 setIsLoading(false);
                 return;
             }
-            // console.log(" searchParams", searchParams);
-            // console.log(" redirect", redirect)
 
             // ISSUE: in build version, router.push not working
             router.refresh();
-            if (redirect) router.push(redirect);
+            if (redirectTo) {
+                console.log("Redirecting to:", redirectTo);
+                // location.reload();
+                // router.push(redirect);
+                // redirect(redirectTo);
+                window.location.href = redirectTo;
+            }
         } catch (error) {
             setError("An unexpected error occurred");
             setIsLoading(false);

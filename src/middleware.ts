@@ -34,6 +34,7 @@ export async function middleware(request: NextRequest) {
     const userRole = token?.role as string | undefined;
 
     // --- 3. Handle Public Routes ---
+    // TODO: is this really needed?
     const isPublicRoute = routeConfig.public.some(
         (routePath) => path === routePath || path.startsWith(`${routePath}/`)
     );

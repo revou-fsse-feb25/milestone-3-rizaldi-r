@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
 
-import { fetchProductList } from "@/services/api";
 import { IProductData } from "@/types/types";
 
 import ButtonRegular from "../_commons/ButtonRegular";
@@ -12,31 +12,21 @@ import ProductForm from "./ProductForm";
 
 export default function DashboardPageContent({
     productDataList,
+    errorMessage,
+    isLoading,
+    // refetchProductDataList,
 }: {
     productDataList: IProductData[];
+    errorMessage: string;
+    isLoading: boolean;
+    // refetchProductDataList: any;
 }) {
-    // const [productDataList, setProductDataList] = useState<IProductData[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const router = useRouter();
     const [error, setError] = useState<string | null>(null);
     const [showForm, setShowForm] = useState(false);
+
+    // TODO: fix any
     const [currentProduct, setCurrentProduct] = useState<any | undefined>(undefined);
-
-    // const fetchProducts = async (categoryIdParam?: number | null) => {
-    //     try {
-    //         setIsLoading(true);
-    //         setError(null);
-    //         const data = await fetchProductList(categoryIdParam);
-    //         setProductDataList(data);
-    //     } catch (err: unknown) {
-    //         err instanceof Error && setError(err.message);
-    //     } finally {
-    //         setIsLoading(false);
-    //     }
-    // };
-
-    // useEffect(() => {
-    //     fetchProducts();
-    // }, []);
 
     // show form
     const handleCreateProduct = () => {
@@ -58,7 +48,7 @@ export default function DashboardPageContent({
                 throw new Error(`Delete failed with status: ${response.status}`);
             }
 
-            // fetchProducts();
+            router.refresh();
         } catch (error) {
             console.error(`Error deleting product with id ${id}:`, error);
             setError("Failed to delete product. Please try again.");
@@ -95,7 +85,7 @@ export default function DashboardPageContent({
             }
 
             setShowForm(false);
-            // fetchProducts();
+            router.refresh();
         } catch (error) {
             console.error("Error saving product:", error);
             setError("Failed to save product. Please try again.");
@@ -116,7 +106,7 @@ export default function DashboardPageContent({
                 <ButtonRegular onClickProp={handleCreateProduct}>Add Product</ButtonRegular>
             </div>
 
-            {/* {error && <p>{error}</p>}
+            {error && <p>{error}</p>}
 
             {showForm ? (
                 <div>
@@ -131,7 +121,7 @@ export default function DashboardPageContent({
                 <div>
                     <p>Loading products...</p>
                 </div>
-            ) : ( */}
+            ) : (
                 <div className="flex flex-col gap-2">
                     {productDataList.map((productData) => (
                         <DashboardProductCard
@@ -142,7 +132,7 @@ export default function DashboardPageContent({
                         />
                     ))}
                 </div>
-            {/* )} */}
+            )}
         </div>
     );
 }

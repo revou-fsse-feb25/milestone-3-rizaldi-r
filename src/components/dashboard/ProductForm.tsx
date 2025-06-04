@@ -2,8 +2,8 @@ import React, { useState, useEffect, ReactNode } from "react";
 import ButtonRegular from "../_commons/ButtonRegular";
 
 export default function ProductForm({ productProp, onSubmit, onCancel }: any) {
-    const [isLoading, setIsLoading] = useState<boolean>(true);
-    const [fetchingError, setfetchingError] = useState<string | null>(null);
+    // const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [errors, setErrors] = useState<Record<string, string>>({});
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const [formData, setFormData] = useState<Partial<any>>({
@@ -11,7 +11,7 @@ export default function ProductForm({ productProp, onSubmit, onCancel }: any) {
         price: 0,
         description: "",
         categoryId: 0,
-        images: ["https://via.placeholder.com/150"],
+        images: ["https://placehold.co/600x400?text=Placeholder", "https://placehold.co/600x400?text=Placeholder"],
     });
 
     useEffect(() => {
@@ -20,10 +20,45 @@ export default function ProductForm({ productProp, onSubmit, onCancel }: any) {
         }
     }, [productProp]);
 
+    const validateForm = () => {
+        const newErrors: Record<string, string> = {};
+
+        if (!formData.title?.trim()) {
+            newErrors.title = "Title is required";
+        }
+
+        if (formData.price === undefined || formData.price < 0) {
+            newErrors.price = "Price must be a positive number";
+        }
+
+        if (!formData.description?.trim()) {
+            newErrors.description = "Description is required";
+        }
+
+        if (formData.images.length < 1) {
+            newErrors.images = "image url is required";
+        }
+
+        if (!formData.categoryId === undefined || formData.categoryId < 0) {
+            newErrors.categoryName = "Category name is required";
+        }
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
     ) => {
         const { name, value } = e.target;
+
+        // Clear error when field is edited
+        if (errors[name]) {
+            setErrors({
+                ...errors,
+                [name]: "",
+            });
+        }
 
         if (name === "price") {
             setFormData({
@@ -38,7 +73,8 @@ export default function ProductForm({ productProp, onSubmit, onCancel }: any) {
         } else if (name === "imageUrl") {
             setFormData({
                 ...formData,
-                images: [value, ...(formData.images?.slice(1) || [])],
+                // edit the first element
+                images: [value, ...formData.images?.slice(1)],
             });
         } else {
             setFormData({
@@ -50,6 +86,13 @@ export default function ProductForm({ productProp, onSubmit, onCancel }: any) {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+
+        console.log(" formData", formData);
+        if (!validateForm()) {
+            console.log(" errors", errors);
+            console.log(" validateForm", validateForm());
+            return;
+        }
 
         setIsSubmitting(true);
 
@@ -73,8 +116,8 @@ export default function ProductForm({ productProp, onSubmit, onCancel }: any) {
                     value={formData.title || ""}
                     onChange={handleChange}
                     placeholder="Product title"
-                    required
                 />
+                {errors.title && <p className="text-red-500">{errors.title}</p>}
             </div>
 
             {/* Price Input */}
@@ -93,9 +136,9 @@ export default function ProductForm({ productProp, onSubmit, onCancel }: any) {
                         min="0"
                         step="0.01"
                         // placeholder="0.00"
-                        required
                     />
                 </div>
+                {errors.price && <p className="text-red-500">{errors.price}</p>}
             </div>
 
             {/* Description Input */}
@@ -108,8 +151,8 @@ export default function ProductForm({ productProp, onSubmit, onCancel }: any) {
                     onChange={handleChange}
                     rows={3}
                     placeholder="Product description"
-                    required
                 />
+                {errors.description && <p className="text-red-500">{errors.description}</p>}
             </div>
 
             {/* Image URL Input and Preview */}
@@ -123,9 +166,9 @@ export default function ProductForm({ productProp, onSubmit, onCancel }: any) {
                         value={formData.images?.[0] || ""}
                         onChange={handleChange}
                         placeholder="https://example.com/image.jpg"
-                        required
                     />
                 </div>
+                {errors.images && <p className="text-red-500">{errors.images}</p>}
             </div>
 
             {/* Category Name Input */}
@@ -138,7 +181,6 @@ export default function ProductForm({ productProp, onSubmit, onCancel }: any) {
                     value={formData.categoryId || 0}
                     onChange={handleChange}
                     placeholder="Category id"
-                    required
                 />
             </div>
 
