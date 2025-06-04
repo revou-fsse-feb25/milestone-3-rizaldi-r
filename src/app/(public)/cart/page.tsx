@@ -1,12 +1,12 @@
-import CartPageContent from "@/components/CartPageContent";
-import Navbar from "@/components/Navbar";
-import NavbarRedirectBtns from "@/components/NavbarRedirectBtns";
+import CartPageContent from "@/components/cart/CartPageContent";
+import Navbar from "@/components/navbar/Navbar";
+import NavbarRedirectButtons from "@/components/_commons/NavbarRedirectButtons";
 
 export default function CartPage() {
     return (
         <>
             <Navbar>
-                <NavbarRedirectBtns />
+                <NavbarRedirectButtons />
             </Navbar>
             <CartPageContent />
         </>

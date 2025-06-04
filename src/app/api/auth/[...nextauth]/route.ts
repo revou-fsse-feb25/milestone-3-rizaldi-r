@@ -51,12 +51,13 @@ const authOptions: NextAuthOptions = {
                 password: { label: "Password", type: "password" },
             },
             async authorize(credentials) {
+                // Generate access token
                 const res = await fetch("https://api.escuelajs.co/api/v1/auth/login", {
                     method: "POST",
                     body: JSON.stringify(credentials),
                     headers: { "Content-Type": "application/json" },
                 });
-                console.log("API login response status:", res);
+                // console.log("API login response status:", res);
                 const responseBody = await res.text();
                 if (!res.ok) {
                     console.error("API login failed:", responseBody);
@@ -69,6 +70,7 @@ const authOptions: NextAuthOptions = {
                     return null;
                 }
 
+                // Get the data
                 const profileRes = await fetch("https://api.escuelajs.co/api/v1/auth/profile", {
                     method: "GET",
                     headers: {
@@ -76,7 +78,7 @@ const authOptions: NextAuthOptions = {
                         Authorization: `Bearer ${accessToken}`,
                     },
                 });
-                console.log("Profile API response status:", profileRes);
+                // console.log("Profile API response status:", profileRes);
                 const profileResponseBody = await profileRes.text();
                 if (!profileRes.ok) {
                     console.error("Profile API failed:", profileResponseBody);

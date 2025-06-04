@@ -1,7 +1,3 @@
-/**
- * Type Definitions for Application
- */
-
 export type EmptyObj = Record<PropertyKey, never>;
 
 export interface ICategoryData {
@@ -20,39 +16,10 @@ export interface IProductData {
     updatedAt: string;
 }
 
-export interface IProductCardProps {
-    id: number;
-    image: string;
-    title: string;
-    price: number;
-    category?: string;
-    description?: string;
-}
-
-export interface IProductCartCardProps {
-    id: number;
-    image: string;
-    title: string;
-    price: number;
-    quantity: number;
-    productData: ICartProduct;
-    onAddToCart: (product: ICartProduct) => void;
-    onRemoveFromCart: (productId: number) => void;
-}
-
-export interface IProductPageContentProps {
-    images: string[];
-    title: string;
-    price: number;
-    categoryName: string;
-    description: string;
-    dateCreated: string;
-    dateUpdated: string;
-}
-
 export type ICartItem = {
-  product: ICartProduct;
-  quantity: number;
+    id: number
+    product: ICartProduct;
+    quantity: number;
 };
 
 export interface ICartProduct {
@@ -60,4 +27,9 @@ export interface ICartProduct {
     name: string;
     price: number;
     image: string;
+}
+
+export interface IOnClickCartActions {
+    onAddToCart: (product: ICartProduct) => void;
+    onRemoveFromCart: (productId: number) => void;
 }

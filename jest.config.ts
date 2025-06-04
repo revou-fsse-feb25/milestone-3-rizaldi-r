@@ -2,13 +2,12 @@ import type { Config } from "jest";
 import nextJest from "next/jest.js";
 
 const createJestConfig = nextJest({
-    // Provide the path to your Next.js app to load next.config.js and .env files in your test environment
+    // Provide the path to Next.js app to load next.config.ts and .env files in the test environment
     dir: "./",
 });
 
 // Add any custom config to be passed to Jest
 const config: Config = {
-    coverageProvider: "babel",
     testEnvironment: "jsdom",
     moduleNameMapper: {
         "^@/components/(.*)$": "<rootDir>/src/components/$1",
@@ -17,6 +16,11 @@ const config: Config = {
         "\\.(css|less|sass|scss)$": "identity-obj-proxy",
     },
     setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
+    transform: {
+        "^.+\\.(js|jsx|ts|tsx)$": ["babel-jest", { presets: ["next/babel"] }],
+    },
+    transformIgnorePatterns: ["/node_modules/", "^.+\\.module\\.(css|sass|scss)$"],
+    coverageProvider: "babel",
     collectCoverage: true,
     maxWorkers: "50%",
     collectCoverageFrom: [
@@ -26,10 +30,6 @@ const config: Config = {
         "!src/**/*.test.{ts,tsx}",
         "!src/**/*.d.ts",
     ],
-    transform: {
-        "^.+\\.(js|jsx|ts|tsx)$": ["babel-jest", { presets: ["next/babel"] }],
-    },
-    transformIgnorePatterns: ["/node_modules/", "^.+\\.module\\.(css|sass|scss)$"],
     coveragePathIgnorePatterns: [
         "/node_modules/",
         "/.next/",
@@ -48,5 +48,4 @@ const config: Config = {
     },
 };
 
-// createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
 export default createJestConfig(config);

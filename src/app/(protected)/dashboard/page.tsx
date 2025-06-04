@@ -1,13 +1,23 @@
-import Navbar from "@/components/Navbar";
-import DashboardPageContent from "@/components/DashboardPageContent";
+import Navbar from "@/components/navbar/Navbar";
+import DashboardPageContent from "@/components/dashboard/DashboardPageContent";
+
+import { handleFetchFromServer } from "@/utils/handleFetchFromServer";
+import { fetchProductList } from "@/services/api";
+import { IProductData } from "@/types/types";
 
 export const revalidate = 30;
 
 export default async function DashboardPage() {
+    // Handle fetching product list
+    const { productData, errorMessage, isLoading } = await handleFetchFromServer<IProductData[]>(
+        fetchProductList
+    );
+
     return (
         <>
             <h2>Dashboard</h2>
-            <DashboardPageContent />
+            {isLoading && <p>loading</p>}
+            <DashboardPageContent productDataList={productData} />
             <Navbar>{""}</Navbar>
         </>
     );

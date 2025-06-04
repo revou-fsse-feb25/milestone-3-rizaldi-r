@@ -1,28 +1,43 @@
 /**
- * This file contains all the API functions for CRUD operations.
+ * This file contains all the API functions for fetching data
  */
 
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { IProductData, ICategoryData } from "@/types/types";
 
 // API base URL
 axios.defaults.baseURL = "https://api.escuelajs.co/api/v1";
 
+// Error handling
+const handleAxiosError = (error: unknown): void => {
+    console.error("Unexpected Error:", error);
+    throw new Error(`An unexpected error occurred: ${(error as Error).message}`);
+};
+
 export const fetchCategoryList = async (): Promise<ICategoryData[]> => {
-    const response = await axios.get("/categories?limit=5");
+    const response = await axios.get("/categories?limit=10");
+    response.status;
     return response.data;
 };
 
 export const fetchProductList = async (categoryId?: number | null): Promise<IProductData[]> => {
-    const filterCategory = categoryId ? `&categoryId=${categoryId}` : "";
-    const params: string = "/products?offset=0&limit=10" + filterCategory;
-    const response = await axios.get(params);
-    return response.data;
+    try {
+        const filterCategory = categoryId ? `&categoryId=${categoryId}` : "";
+        const params: string = "/products?offset=0&limit=10" + filterCategory;
+        const response = await axios.get(params);
+        return response.data;
+    } catch (error) {
+        throw handleAxiosError(error);
+    }
 };
 
 export const fetchProduct = async (id: number): Promise<IProductData> => {
-    const response = await axios.get(`/products/${id}`);
-    return response.data;
+    try {
+        const response = await axios.get(`/products/${id}`);
+        return response.data;
+    } catch (error) {
+        throw handleAxiosError(error);
+    }
 };
 
 export async function fetchFaq(): Promise<{ id: number; title: string; content: string }[]> {

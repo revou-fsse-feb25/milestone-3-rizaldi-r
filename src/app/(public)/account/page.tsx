@@ -1,13 +1,13 @@
 import React, { Suspense } from "react";
-import Navbar from "@/components/Navbar";
-import NavbarRedirectBtns from "@/components/NavbarRedirectBtns";
-import AccountPageContent from "@/components/AccountPageContent";
+import Navbar from "@/components/navbar/Navbar";
+import NavbarRedirectButtons from "@/components/_commons/NavbarRedirectButtons";
+import AccountPageContent from "@/components/account/AccountPageContent";
 
 export default function LoginPage() {
     return (
         <>
             <Navbar>
-                <NavbarRedirectBtns />
+                <NavbarRedirectButtons />
             </Navbar>
             <Suspense fallback={<div>Loading account details...</div>}>
                 <AccountPageContent />

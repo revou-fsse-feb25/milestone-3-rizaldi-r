@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 
-import ProductPageContent from "@/components/ProductPageContent";
-import Navbar from "@/components/Navbar";
-import NavbarProductPageBtns from "@/components/NavbarProductPageBtns";
 import { fetchProduct } from "@/services/api";
 import { IProductData } from "@/types/types";
+import { handleFetchFromServer } from "@/utils/handleFetchFromServer";
+
+import ProductPageContent from "@/components/product/ProductPageContent";
+import Navbar from "@/components/navbar/Navbar";
+import NavbarProductPageBtns from "@/components/product/NavbarProductPageBtns";
 
 interface IProductPageProps {
     params: Promise<{ productId: number }>;
@@ -33,31 +35,35 @@ export async function generateMetadata({ params }: IProductPageProps): Promise<M
 }
 
 export default async function ProductPage({ params }: IProductPageProps) {
-    // get parameter id
+    // Get the id from parameter
     const tempParams = await params;
     const id = tempParams?.productId;
 
-    // fetch product data
-    const productData: IProductData = await fetchProduct(id);
-
-    // convert date
-    const dateUpdated = new Date(productData.updatedAt).toDateString();
-    const dateCreated = new Date(productData.creationAt).toDateString();
+    // Handle fetch product
+    const { productData, errorMessage } = await handleFetchFromServer<IProductData, [number]>(
+        fetchProduct,
+        id
+    );
 
     return (
         <>
-            <Navbar>
-                <NavbarProductPageBtns product={productData} />
-            </Navbar>
-            <ProductPageContent
-                images={productData.images}
-                title={productData.title}
-                price={productData.price}
-                categoryName={productData.category.name}
-                description={productData.description}
-                dateCreated={dateCreated}
-                dateUpdated={dateUpdated}
-            />
+            {errorMessage && <p>{errorMessage}</p>}
+            {productData && (
+                <>
+                    <Navbar>
+                        <NavbarProductPageBtns product={productData} />
+                    </Navbar>
+                    <ProductPageContent
+                        images={productData.images}
+                        title={productData.title}
+                        price={productData.price}
+                        categoryName={productData.category.name}
+                        description={productData.description}
+                        dateCreated={new Date(productData.updatedAt).toDateString()}
+                        dateUpdated={new Date(productData.creationAt).toDateString()}
+                    />
+                </>
+            )}
         </>
     );
 }

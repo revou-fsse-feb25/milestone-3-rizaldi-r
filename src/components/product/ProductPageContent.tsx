@@ -1,10 +1,18 @@
 "use client";
 
-import { IProductPageContentProps } from "@/types/types";
-import CardContainer from "./CardContainer";
-import TextSubtitle from "./TextSubtitle";
-import ButtonRectText from "./ButtonRectText";
-import ButtonRectIcon from "./ButtonRectIcon";
+import CardContainer from "../_commons/CardContainer";
+import TextSubheading from "../_commons/TextSubheading";
+import RegularButton from "../_commons/ButtonRegular";
+
+interface IProductPageData {
+    images: string[];
+    title: string;
+    price: number;
+    categoryName: string;
+    description: string;
+    dateCreated: string;
+    dateUpdated: string;
+}
 
 export default function ProductPageContent({
     images,
@@ -14,24 +22,31 @@ export default function ProductPageContent({
     description,
     dateCreated,
     dateUpdated,
-}: IProductPageContentProps) {
+}: IProductPageData) {
     return (
         <main className="flex flex-col gap-2">
-            <img className="rounded-sm" src={images[0]} alt="" />
+            <img
+                className="rounded-sm"
+                src={images[0] || "https://placehold.co/600x400?text=No+Image"}
+                alt={`an image of ${title}`}
+                onError={(e) => {
+                    e.currentTarget.src = "https://placehold.co/600x400?text=Can't+Load+Image";
+                }}
+            />
             <CardContainer classNameProp="flex items-start justify-between w-full">
                 <div className="flex flex-col gap-1 items-start">
-                    <TextSubtitle>{title}</TextSubtitle>
+                    <TextSubheading>{title}</TextSubheading>
                     <span className="font-bold mb-1">
                         $ <span className=" align-middle  text-xl">{price}</span>
                     </span>
-                    <ButtonRectText customFontWeight={"font-semibold"} customPadding="px-2">
+                    <RegularButton customPadding={{ y: 1 }} customFontWeight={"font-semibold"}>
                         {categoryName}
-                    </ButtonRectText>
+                    </RegularButton>
                 </div>
-                <ButtonRectIcon iconLink="/favorite.svg" iconSize={12} />
+                <RegularButton iconLink="/favorite.svg" iconSize={12} />
             </CardContainer>
             <CardContainer classNameProp="flex gap-3 pb-4 flex-col">
-                <div className="">
+                <div>
                     <h3 className="font-semibold mb-1">Product Information</h3>
                     <p>Updated: {dateUpdated}</p>
                     <p>Published: {dateCreated}</p>

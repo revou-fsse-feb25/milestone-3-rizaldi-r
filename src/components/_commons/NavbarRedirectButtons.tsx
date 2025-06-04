@@ -1,8 +1,8 @@
 "use client";
-import NavbarButton from "./NavbarButton";
-import NavbarButtonCart from "./NavbarButtonCart";
+import NavbarButton from "../navbar/NavbarButton";
+import NavbarButtonCart from "../navbar/NavbarButtonCart";
 
-export default function NavbarRedirectBtns() {
+export default function NavbarRedirectButtons() {
     const iconWidth: number = 24;
 
     return (

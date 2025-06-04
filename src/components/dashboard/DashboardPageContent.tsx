@@ -1,44 +1,48 @@
-'use client'
+"use client";
 
 import { useState, useEffect } from "react";
+import { signOut } from "next-auth/react";
+
 import { fetchProductList } from "@/services/api";
 import { IProductData } from "@/types/types";
 
-import ButtonRectText from "@/components/ButtonRectText";
-import { signOut } from "next-auth/react";
+import ButtonRegular from "../_commons/ButtonRegular";
 import DashboardProductCard from "./DashboardProductCard";
 import ProductForm from "./ProductForm";
 
-
-export default function DashboardPageContent() {
-    const [productDataList, setProductDataList] = useState<IProductData[]>([]);
+export default function DashboardPageContent({
+    productDataList,
+}: {
+    productDataList: IProductData[];
+}) {
+    // const [productDataList, setProductDataList] = useState<IProductData[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [showForm, setShowForm] = useState(false);
     const [currentProduct, setCurrentProduct] = useState<any | undefined>(undefined);
 
-    const fetchProducts = async (categoryIdParam?: number | null) => {
-        try {
-            setIsLoading(true);
-            setError(null);
-            const data = await fetchProductList(categoryIdParam);
-            setProductDataList(data);
-        } catch (err: unknown) {
-            err instanceof Error && setError(err.message);
-        } finally {
-            setIsLoading(false);
-        }
-    };
+    // const fetchProducts = async (categoryIdParam?: number | null) => {
+    //     try {
+    //         setIsLoading(true);
+    //         setError(null);
+    //         const data = await fetchProductList(categoryIdParam);
+    //         setProductDataList(data);
+    //     } catch (err: unknown) {
+    //         err instanceof Error && setError(err.message);
+    //     } finally {
+    //         setIsLoading(false);
+    //     }
+    // };
 
-    useEffect(() => {
-        fetchProducts();
-    }, []);
+    // useEffect(() => {
+    //     fetchProducts();
+    // }, []);
 
+    // show form
     const handleCreateProduct = () => {
         setCurrentProduct(undefined);
         setShowForm(true);
     };
-
     const handleEditProduct = (product: any) => {
         setCurrentProduct(product);
         setShowForm(true);
@@ -54,7 +58,7 @@ export default function DashboardPageContent() {
                 throw new Error(`Delete failed with status: ${response.status}`);
             }
 
-            fetchProducts();
+            // fetchProducts();
         } catch (error) {
             console.error(`Error deleting product with id ${id}:`, error);
             setError("Failed to delete product. Please try again.");
@@ -91,7 +95,7 @@ export default function DashboardPageContent() {
             }
 
             setShowForm(false);
-            fetchProducts();
+            // fetchProducts();
         } catch (error) {
             console.error("Error saving product:", error);
             setError("Failed to save product. Please try again.");
@@ -100,13 +104,19 @@ export default function DashboardPageContent() {
 
     return (
         <div>
-            <ButtonRectText onClickProp={()=>{signOut({ callbackUrl: '/' })}}>SignOut</ButtonRectText>
+            <ButtonRegular
+                onClickProp={() => {
+                    signOut({ callbackUrl: "/" });
+                }}
+            >
+                SignOut
+            </ButtonRegular>
             <div>
                 <h1>Product Management</h1>
-                <ButtonRectText onClickProp={handleCreateProduct}>Add Product</ButtonRectText>
+                <ButtonRegular onClickProp={handleCreateProduct}>Add Product</ButtonRegular>
             </div>
 
-            {error && <p>{error}</p>}
+            {/* {error && <p>{error}</p>}
 
             {showForm ? (
                 <div>
@@ -121,18 +131,18 @@ export default function DashboardPageContent() {
                 <div>
                     <p>Loading products...</p>
                 </div>
-            ) : (
+            ) : ( */}
                 <div className="flex flex-col gap-2">
                     {productDataList.map((productData) => (
                         <DashboardProductCard
-                            product={productData}
                             key={productData.id}
+                            product={productData}
                             onEdit={handleEditProduct}
                             onDelete={handleDeleteProduct}
                         />
                     ))}
                 </div>
-            )}
+            {/* )} */}
         </div>
     );
 }

@@ -65,7 +65,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
                 );
             } else {
                 // If it doesn't exist, add new item
-                return [...currentItems, { product, quantity: 1 }];
+                return [...currentItems, { id: product.id , product, quantity: 1 }];
             }
         });
     };

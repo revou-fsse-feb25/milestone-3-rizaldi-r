@@ -1,4 +1,4 @@
-export default function TextSubtitle({
+export default function TextSubheading({
     children,
     classNameProp,
 }: {

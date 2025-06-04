@@ -10,18 +10,7 @@ const staticFileExtensions = [
     ".gif",
     ".svg",
     ".webp",
-    ".css",
-    ".js",
-    ".map",
-    ".json",
     ".xml",
-    ".txt",
-    ".pdf",
-    ".woff",
-    ".woff2",
-    ".ttf",
-    ".otf",
-    ".eot",
 ];
 
 const routeConfig = {
@@ -85,6 +74,6 @@ export async function middleware(request: NextRequest) {
 export const config = {
     matcher: [
         // Apply middleware to all routes except static assets
-        "/((?!api/auth|_next/static|_next/image|static|favicon.ico).*)",
+        "/((?!api/auth|_next/static|_next/image|static|public|favicon.ico).*)",
     ],
 };

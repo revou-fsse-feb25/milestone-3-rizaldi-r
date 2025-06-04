@@ -1,5 +1,5 @@
 import Link from "next/link";
-import ButtonRectText from "./ButtonRectText";
+import ButtonRegular from "./ButtonRegular";
 import CardContainer from "./CardContainer";
 
 export default function FlashMessageLogin() {
@@ -10,9 +10,9 @@ export default function FlashMessageLogin() {
             </span>
             <div className="flex gap-1">
                 <Link href={'/account'}>
-                    <ButtonRectText>Login</ButtonRectText>
+                    <ButtonRegular>Login</ButtonRegular>
                 </Link>
-                <ButtonRectText>SignUp</ButtonRectText>
+                <ButtonRegular>SignUp</ButtonRegular>
             </div>
         </CardContainer>
     );

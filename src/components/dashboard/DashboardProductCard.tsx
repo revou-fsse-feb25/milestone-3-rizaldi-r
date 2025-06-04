@@ -1,7 +1,6 @@
 import Link from "next/link";
-import { IProductCardProps } from "@/types/types";
-import CardContainer from "./CardContainer";
-import ButtonRectText from "./ButtonRectText";
+import CardContainer from "../_commons/CardContainer";
+import ButtonRegular from "../_commons/ButtonRegular";
 
 export default function DashboardProductCard({ product, onEdit, onDelete }: any) {
     const descLength = 30;
@@ -33,8 +32,8 @@ export default function DashboardProductCard({ product, onEdit, onDelete }: any)
                 </p>
             </Link>
             <div className="flex absolute bottom-0 right-0 p-2 gap-2">
-                <ButtonRectText onClickProp={() => onEdit(product)} customPadding="px-1.5" >Edit</ButtonRectText>
-                <ButtonRectText onClickProp={() => onDelete(product.id)} customPadding="px-1">Delete</ButtonRectText>
+                <ButtonRegular onClickProp={() => onEdit(product)} customPadding={{x:1.5, y:1}} >Edit</ButtonRegular>
+                <ButtonRegular onClickProp={() => onDelete(product.id)} customPadding={{x:1.5, y:1}} >Delete</ButtonRegular>
             </div>
         </CardContainer>
     );

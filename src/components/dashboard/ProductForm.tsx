@@ -1,5 +1,5 @@
 import React, { useState, useEffect, ReactNode } from "react";
-import ButtonRectText from "./ButtonRectText";
+import ButtonRegular from "../_commons/ButtonRegular";
 
 export default function ProductForm({ productProp, onSubmit, onCancel }: any) {
     const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -144,8 +144,8 @@ export default function ProductForm({ productProp, onSubmit, onCancel }: any) {
 
             {/* Action Buttons */}
             <div>
-                <ButtonRectText onClickProp={onCancel}>Cancel</ButtonRectText>
-                <ButtonRectText type="submit">{productProp ? "Update" : "Create"}</ButtonRectText>
+                <ButtonRegular onClickProp={onCancel}>Cancel</ButtonRegular>
+                <ButtonRegular type="submit">{productProp ? "Update" : "Create"}</ButtonRegular>
             </div>
         </form>
     );

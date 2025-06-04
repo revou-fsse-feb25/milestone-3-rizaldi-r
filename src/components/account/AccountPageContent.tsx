@@ -2,10 +2,11 @@
 
 import { ChangeEvent, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import TextSubtitle from "./TextSubtitle";
-import { signIn } from "next-auth/react";
-import ButtonRectText from "./ButtonRectText";
 import { useSession, signOut } from "next-auth/react";
+import { signIn } from "next-auth/react";
+
+import TextSubheading from "../_commons/TextSubheading";
+import ButtonRegular from "../_commons/ButtonRegular";
 
 export default function LoginPageContent() {
     const router = useRouter();
@@ -42,8 +43,9 @@ export default function LoginPageContent() {
                 setIsLoading(false);
                 return;
             }
-            console.log(" searchParams", searchParams);
-            console.log(" redirect", redirect)
+            // console.log(" searchParams", searchParams);
+            // console.log(" redirect", redirect)
+
             // ISSUE: in build version, router.push not working
             router.refresh();
             if (redirect) router.push(redirect);
@@ -56,17 +58,14 @@ export default function LoginPageContent() {
 
     return (
         <main>
-            <TextSubtitle>My Account</TextSubtitle>
+            <TextSubheading>My Account</TextSubheading>
 
             {error && <p>{error}</p>}
 
             {status === "authenticated" && (
-                <ButtonRectText
-                    onClickProp={() => signOut({ callbackUrl: "/" })}
-                    classNameProp="m-auto"
-                >
+                <ButtonRegular onClickProp={() => signOut({ callbackUrl: "/" })}>
                     SignOut
-                </ButtonRectText>
+                </ButtonRegular>
             )}
 
             {status === "unauthenticated" && (
@@ -93,14 +92,14 @@ export default function LoginPageContent() {
                         className="border border-[var(--color-border)] px-1"
                         required
                     />
-                    <ButtonRectText>
+                    <ButtonRegular>
                         <input
                             type="submit"
                             disabled={isLoading}
                             className="cursor-pointer"
                             value={!isLoading ? "Login" : "Logging in..."}
                         />
-                    </ButtonRectText>
+                    </ButtonRegular>
                 </form>
             )}
         </main>
