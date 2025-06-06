@@ -9,7 +9,9 @@ export default function CardContainer({
 }) {
     return (
         <div
-            className={`bg-(image:--gradient-card-fill) rounded-sm p-2 relative border border-[var(--color-border)] ${classNameProp}`}
+            className={`bg-(image:--gradient-card-fill) rounded-sm p-2 relative border border-[var(--color-border)] ${
+                classNameProp ? classNameProp : ""
+            }`}
         >
             {children}
         </div>

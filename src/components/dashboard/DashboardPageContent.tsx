@@ -106,6 +106,7 @@ export default function DashboardPageContent({
                 <ButtonRegular onClickProp={handleCreateProduct}>Add Product</ButtonRegular>
             </div>
 
+            {errorMessage && <p>{errorMessage}</p>}
             {error && <p>{error}</p>}
 
             {showForm ? (

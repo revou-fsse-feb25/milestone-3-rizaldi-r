@@ -1,9 +1,9 @@
 "use client";
 
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState, useEffect } from "react";
 import { useRouter, useSearchParams, redirect } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
-import { signIn } from "next-auth/react";
+import { signIn, SignInOptions } from "next-auth/react";
 
 import TextSubheading from "../_commons/TextSubheading";
 import ButtonRegular from "../_commons/ButtonRegular";
@@ -43,16 +43,21 @@ export default function LoginPageContent() {
                 setIsLoading(false);
                 return;
             }
-
+            
             // ISSUE: in build version, router.push not working
-            router.refresh();
-            if (redirectTo) {
-                console.log("Redirecting to:", redirectTo);
-                // location.reload();
-                // router.push(redirect);
-                // redirect(redirectTo);
-                window.location.href = redirectTo;
-            }
+            // to access checkout page, it needs to be fully reloaded 
+            // reload the signin state
+            location.reload();
+            if (redirectTo) router.replace(redirectTo);
+
+            // router.refresh();
+            // if (redirectTo) {
+            //     // console.log("Redirecting to:", redirectTo);
+            //     // router.push(redirectTo);
+            //     // location.reload();
+            //     router.replace(redirectTo);
+            //     // window.location.href = redirectTo;
+            // }
         } catch (error) {
             setError("An unexpected error occurred");
             setIsLoading(false);
@@ -66,13 +71,11 @@ export default function LoginPageContent() {
 
             {error && <p>{error}</p>}
 
-            {status === "authenticated" && (
+            {status === "authenticated" ? (
                 <ButtonRegular onClickProp={() => signOut({ callbackUrl: "/" })}>
                     SignOut
                 </ButtonRegular>
-            )}
-
-            {status === "unauthenticated" && (
+            ) : (
                 <form onSubmit={handleFormSubmit} className="flex flex-col items-center">
                     <label htmlFor="email">Email: </label>
                     <input
@@ -96,13 +99,8 @@ export default function LoginPageContent() {
                         className="border border-[var(--color-border)] px-1"
                         required
                     />
-                    <ButtonRegular>
-                        <input
-                            type="submit"
-                            disabled={isLoading}
-                            className="cursor-pointer"
-                            value={!isLoading ? "Login" : "Logging in..."}
-                        />
+                    <ButtonRegular type={"submit"} isDisabled={isLoading}>
+                        {!isLoading ? "Login" : "Logging in..."}
                     </ButtonRegular>
                 </form>
             )}

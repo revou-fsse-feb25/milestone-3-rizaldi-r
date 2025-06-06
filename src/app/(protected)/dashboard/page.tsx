@@ -1,7 +1,7 @@
 import Navbar from "@/components/navbar/Navbar";
 import DashboardPageContent from "@/components/dashboard/DashboardPageContent";
 
-import { handleFetchFromServer } from "@/utils/handleFetchFromServer";
+import { fetchFromServer } from "@/utils/fetchFromServer";
 import { fetchProductList } from "@/services/api";
 import { IProductData } from "@/types/types";
 
@@ -9,7 +9,7 @@ export const revalidate = 30;
 
 export default async function DashboardPage() {
     // Handle fetching product list
-    const { productData, errorMessage, isLoading, refetch } = await handleFetchFromServer<
+    const { productData, errorMessage, isLoading } = await fetchFromServer<
         IProductData[]
     >(fetchProductList);
 

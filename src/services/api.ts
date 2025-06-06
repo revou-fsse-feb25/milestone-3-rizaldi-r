@@ -15,9 +15,13 @@ const handleAxiosError = (error: unknown): void => {
 };
 
 export const fetchCategoryList = async (): Promise<ICategoryData[]> => {
-    const response = await axios.get("/categories?limit=10");
-    response.status;
-    return response.data;
+    try {
+        const response = await axios.get("/categories?limit=10");
+        response.status;
+        return response.data;
+    } catch (error) {
+        throw handleAxiosError(error);
+    }
 };
 
 export const fetchProductList = async (categoryId?: number | null): Promise<IProductData[]> => {

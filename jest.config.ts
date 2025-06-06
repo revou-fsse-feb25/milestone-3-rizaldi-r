@@ -8,25 +8,21 @@ const createJestConfig = nextJest({
 
 // Add any custom config to be passed to Jest
 const config: Config = {
+    clearMocks: true,
     testEnvironment: "jsdom",
-    moduleNameMapper: {
-        "^@/components/(.*)$": "<rootDir>/src/components/$1",
-        "^@/pages/(.*)$": "<rootDir>/src/pages/$1",
-        "^@/app/(.*)$": "<rootDir>/src/app/$1",
-        "\\.(css|less|sass|scss)$": "identity-obj-proxy",
-    },
     setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
-    transform: {
-        "^.+\\.(js|jsx|ts|tsx)$": ["babel-jest", { presets: ["next/babel"] }],
+    moduleNameMapper: {
+        "^@/(.*)$": "<rootDir>/src/$1",
     },
-    transformIgnorePatterns: ["/node_modules/", "^.+\\.module\\.(css|sass|scss)$"],
-    coverageProvider: "babel",
-    collectCoverage: true,
-    maxWorkers: "50%",
+    transform: {
+        "^.+\\.(ts|tsx)$": [
+            "babel-jest",
+            { presets: ["next/babel", "@babel/preset-react", "@babel/preset-typescript"] },
+        ],
+    },
+    // testMatch: ["<rootDir>/src/**/__tests__/**/*.test.ts", "<rootDir>/src/**/__tests__/**/*.test.tsx"],
     collectCoverageFrom: [
-        "src/app/**/*.{js,jsx,ts,tsx}",
-        "src/services/**/*.ts",
-        "src/components/**/*.tsx",
+        "src/**/*.{ts,tsx}",
         "!src/**/*.test.{ts,tsx}",
         "!src/**/*.d.ts",
     ],
@@ -37,6 +33,8 @@ const config: Config = {
         "/coverage/",
         "jest.config.ts",
         "next.config.ts",
+        "src/app/api/auth/*",
+
     ],
     coverageThreshold: {
         global: {
@@ -46,6 +44,8 @@ const config: Config = {
             statements: 50,
         },
     },
+    coverageProvider: "babel",
+    collectCoverage: true,
 };
 
 export default createJestConfig(config);

@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import HomePage from '../app/page';
+import HomePage from '../../app/page';
 
 jest.mock('@/components/home/HomePageContent', () => {
   return function MockHomePageContent() {
@@ -7,13 +7,13 @@ jest.mock('@/components/home/HomePageContent', () => {
   };
 });
 
-jest.mock('@/components/Navbar', () => {
+jest.mock('@/components/navbar/Navbar', () => {
   return function MockNavbar({ children }: { children: React.ReactNode }) {
     return <nav data-testid="mock-navbar">{children}</nav>;
   };
 });
 
-jest.mock('@/components/NavbarRedirectBtns', () => {
+jest.mock('@/components/_commons/NavbarRedirectButtons', () => {
   return function MockNavbarRedirectBtns() {
     return <div data-testid="mock-navbar-redirect-btns">Mock Navbar Redirect Buttons</div>;
   };

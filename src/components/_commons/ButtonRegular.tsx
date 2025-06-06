@@ -14,6 +14,7 @@ export default function ButtonRegular({
     iconLink,
     iconSize,
     isRound,
+    isDisabled = false,
     customFontWeight = "font-bold",
     customPadding,
     customClassName,
@@ -24,6 +25,7 @@ export default function ButtonRegular({
     iconLink?: string;
     iconSize?: number;
     isRound?: boolean;
+    isDisabled?: boolean
     customFontWeight?: FontWeight;
     customPadding?: { x?: number; y?: number };
     customClassName?: string;
@@ -72,6 +74,7 @@ export default function ButtonRegular({
         <button
             onClick={onClickProp}
             type={type}
+            disabled={isDisabled}
             className={`border-[var(--color-border)] bg-(image:--gradient-btn-glare) hover:bg-gray-300  border font-bold cursor-pointer hover:border-[var(--color-border-active)] p-[2px] group ${
                 isRound ? "rounded-full" : outerRounding
             }`}
@@ -86,7 +89,6 @@ export default function ButtonRegular({
                         className="inline filter-[var(--filter-color-text)]"
                         width={iconSize}
                         src={iconLink}
-                        alt=""
                     />
                 )}
                 {children && (

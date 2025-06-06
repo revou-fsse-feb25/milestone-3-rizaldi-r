@@ -1,6 +1,6 @@
 type FetcherFunction<TData, TParams extends any[]> = (...params: TParams) => Promise<TData>;
 
-async function handleInitialFetch<TData, TParams extends any[] = any[]>(
+async function initialFetch<TData, TParams extends any[] = any[]>(
     fetcher: FetcherFunction<TData, TParams>,
     ...fetcherParams: TParams
 ): Promise<TData> {
@@ -12,7 +12,7 @@ async function handleInitialFetch<TData, TParams extends any[] = any[]>(
     }
 }
 
-export async function handleFetchFromServer<TData, TParams extends any[] = any[]>(
+export async function fetchFromServer<TData, TParams extends any[] = any[]>(
     fetcher: FetcherFunction<TData, TParams>,
     ...fetcherParams: TParams
 ) {
@@ -23,7 +23,7 @@ export async function handleFetchFromServer<TData, TParams extends any[] = any[]
 
     const fetchData = async () => {
         try {
-            productData = await handleInitialFetch<TData, TParams>(fetcher, ...fetcherParams);
+            productData = await initialFetch<TData, TParams>(fetcher, ...fetcherParams);
             return productData;
         } catch (error: unknown) {
             errorMessage = (error as Error).message;

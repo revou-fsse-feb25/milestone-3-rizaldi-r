@@ -29,7 +29,8 @@ export default function ProductList<TProduct extends { id: number }, TActions = 
 
             {/* ProductData display */}
             {!error && !isLoading && (
-                <div className={`${isGrid ? "grid" : "flex"} grid-cols-2 gap-3 flex-col w-full`}>
+                // TODO: use other than data-testid, like aria
+                <div className={`${isGrid ? "grid" : "flex"} grid-cols-2 gap-3 flex-col w-full`} data-testid="product-list-container">
                     {productDataList.length === 0 ? (
                         <p>No products available.</p>
                     ) : (

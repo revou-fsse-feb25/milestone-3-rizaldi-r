@@ -14,9 +14,9 @@ const staticFileExtensions = [
 ];
 
 const routeConfig = {
-    public: ["/", "/api/auth", "/faq", "/products", "/wishlist", "/cart"],
+    public: ["/", "/api/auth", "/faq", "/products", "/cart"],
     authPages: ["/account"],
-    protected: ["/checkout"],
+    protected: ["/checkout", "/wishlist"],
     adminOnly: ["/dashboard"],
 };
 

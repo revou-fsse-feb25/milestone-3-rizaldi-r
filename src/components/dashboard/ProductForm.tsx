@@ -11,7 +11,7 @@ export default function ProductForm({ productProp, onSubmit, onCancel }: any) {
         price: 0,
         description: "",
         categoryId: 0,
-        images: ["https://placehold.co/600x400?text=Placeholder", "https://placehold.co/600x400?text=Placeholder"],
+        images: ["https://placehold.co/600x400?text=Placeholder", "https://placehold.co/600x400?text=Placeholder+2"],
     });
 
     useEffect(() => {
@@ -87,10 +87,7 @@ export default function ProductForm({ productProp, onSubmit, onCancel }: any) {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
-        console.log(" formData", formData);
         if (!validateForm()) {
-            console.log(" errors", errors);
-            console.log(" validateForm", validateForm());
             return;
         }
 
@@ -187,7 +184,7 @@ export default function ProductForm({ productProp, onSubmit, onCancel }: any) {
             {/* Action Buttons */}
             <div>
                 <ButtonRegular onClickProp={onCancel}>Cancel</ButtonRegular>
-                <ButtonRegular type="submit">{productProp ? "Update" : "Create"}</ButtonRegular>
+                <ButtonRegular type="submit" isDisabled={isSubmitting}>{isSubmitting ? "Submitting..." : productProp ? "Update" : "Create"}</ButtonRegular>
             </div>
         </form>
     );

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import { fetchProduct } from "@/services/api";
 import { IProductData } from "@/types/types";
-import { handleFetchFromServer } from "@/utils/handleFetchFromServer";
+import { fetchFromServer } from "@/utils/fetchFromServer";
 
 import ProductPageContent from "@/components/product/ProductPageContent";
 import Navbar from "@/components/navbar/Navbar";
@@ -40,7 +40,7 @@ export default async function ProductPage({ params }: IProductPageProps) {
     const id = tempParams?.productId;
 
     // Handle fetch product
-    const { productData, errorMessage } = await handleFetchFromServer<IProductData, [number]>(
+    const { productData, errorMessage } = await fetchFromServer<IProductData, [number]>(
         fetchProduct,
         id
     );

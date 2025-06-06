@@ -12,15 +12,15 @@ export function useFetchData<TData, TParams extends any[]>(
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
-    // useCallback hook to memoize the fetching logic
+    // useCallback hook to memorize the fetching logic
     // This prevent the useEffect to run unnecessarily on every render because fetchData function is re-created (new identity) if we didnt use callback
     const fetchData = useCallback(
         async (...params: TParams) => {
+            setIsLoading(true);
+            setError(null);
             try {
                 const fetchedData = await fetcher(...params);
                 setData(fetchedData);
-                setIsLoading(true);
-                setError(null);
             } catch (err: unknown) {
                 if (err instanceof Error) {
                     setError(err.message);
@@ -34,7 +34,7 @@ export function useFetchData<TData, TParams extends any[]>(
         [fetcher]
     ); 
 
-    // It runs once on component mount and whenever `fetchData` or `fetcherParams` change.
+    // It runs once on component mount and whenever fetchData or fetcherParams change.
     useEffect(() => {
         fetchData(...fetcherParams);
     }, [fetchData, ...fetcherParams]); 
